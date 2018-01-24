@@ -1,0 +1,12 @@
+syntax: regexp
+^config\.mk$
+^.*\.i$
+^.*\.s$
+^.*\.cil\..*
+^.*\.o$
+^.*\.allocstubs\..*
+^.*\.fixuplog$
+^.*\.i\..*
+^.*\.res$
+^.*\.ltrans\.out$
+^[-a-z]*/[-a-z]*$

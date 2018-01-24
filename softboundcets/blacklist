@@ -1,0 +1,7 @@
+fun:Getopt
+fun:isdigit
+fun:toupper
+fun:sre_toupper
+fun:s2upper
+fun:SymbolIndex
+fun:DigitizeSequence
