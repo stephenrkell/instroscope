@@ -12,8 +12,8 @@ isolate_between_first_ud2_pair () {
     sed "/.*ud2[[:blank:]]*$/,/.*ud2[[:blank:]]*$/! d" | head -n-1 | tail -n+2 | sed -n '/.*ud2[[:blank:]]*$/ q; /.*/ p'
 }
 
-alldirs=${DIRS:-$(find -maxdepth 1 -type d -name '[a-z]*' ! -name 'programs')}
-echo "alldirs is $alldirs" 1>&2
+alltools=${TOOLS:-$(find -maxdepth 1 -type d -name '[a-z]*' ! -name 'programs')}
+echo "alltools is $alltools" 1>&2
 
 find_output_binaries () {
     while true; do
@@ -41,12 +41,12 @@ print_disas_between_first_ud2_pair () {
     echo "------------------------"
 }
 
-#find_output_binaries $alldirs | \
+#find_output_binaries $alltools | \
 #while read fname; do
 #    print_f_symbol_size "$fname"
 #done | column -s$'\t' -t
 #
-#find_output_binaries $alldirs | \
+#find_output_binaries $alltools | \
 #while read fname; do
 #    print_disas_between_first_ud2_pair "$fname"
 #done
@@ -54,20 +54,20 @@ print_disas_between_first_ud2_pair () {
 # To get vertically aligned outputs for each, in two cases,
 # I did
 # pr -w172 -m \
-#  <( DIRS=crunchb ./show-results.sh ) \
-#  <( DIRS=asan ./show-results.sh ) | sed '/^[[:blank:]]*$/ d' 
+#  <( TOOLS=crunchb ./show-results.sh ) \
+#  <( TOOLS=asan ./show-results.sh ) | sed '/^[[:blank:]]*$/ d' 
 # ... remembering that "pr -m" prints all files in parallel, page-by-page.
 # So we want one "file" per directory.
-# So how do I show it for all dirs?
+# So how do I show it for all tools?
 # find_output_binaries gives us binary-by-binary
 
-all_output_for_d () {
-    d="$1"
-    find_output_binaries "$d" | \
+all_output_for_t () {
+    t="$1"
+    find_output_binaries "$t" | \
     while read fname; do
         print_f_symbol_size "$fname"
     done | column -s$'\t' -t
-    find_output_binaries "$d" | \
+    find_output_binaries "$t" | \
     while read fname; do
         print_disas_between_first_ud2_pair "$fname"
     done
@@ -75,9 +75,9 @@ all_output_for_d () {
 
 cmdargs=""
 ctr=0
-for d in $alldirs; do
+for t in $alltools; do
     ctr=$(( $ctr + 1 ))
-    cmdargs="${cmdargs:+${cmdargs} }<( all_output_for_d $d )"
+    cmdargs="${cmdargs:+${cmdargs} }<( all_output_for_t $t )"
 done
 #echo "cmdargs is $cmdargs"
 

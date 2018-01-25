@@ -9,3 +9,11 @@ void *(__attribute__((used)) f)(char *q)
 	END_LABEL(q1)
 	return q1;
 }
+
+#ifdef RUNNABLE
+int main(void)
+{
+	char c[] = "abc";
+	return (int) f(&c);
+}
+#endif

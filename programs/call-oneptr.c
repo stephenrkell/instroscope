@@ -2,11 +2,18 @@
 
 int g(int *p) { return 42; }
 
-void (__attribute__((used)) f)(void *p)
+void (__attribute__((used)) f)(int *p)
 {
-	void *p1 = p;
-	do_nothing_p(p1);
-	START_LABEL(p1)
-	int ignored = g(p1);
+	do_nothing_p(p);
+	START_LABEL(p)
+	int ignored = g(p);
 	END_LABEL(ignored)
 }
+
+#ifdef RUNNABLE
+int main(void)
+{
+	int x = 0;
+	f(&x);
+}
+#endif

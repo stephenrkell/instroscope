@@ -7,3 +7,11 @@ int (__attribute__((used)) f)(int *p)
 	END_LABEL(q)
 	return q;
 }
+
+#ifdef RUNNABLE
+int main(void)
+{
+	int xs[3] = { 0, 1, 2 };
+	return f(xs);
+}
+#endif
